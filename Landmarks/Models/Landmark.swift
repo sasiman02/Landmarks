@@ -4,39 +4,30 @@
 //
 //  Created by 김현수 on 2020/11/27.
 //
-
+import Foundation
 import SwiftUI
 import CoreLocation
 
-struct Landmark: Hashable, Codable {
+struct Landmark: Hashable, Codable, Identifiable {
     var id: Int
     var name: String
-    fileprivate var imageName: String
-    fileprivate var coordinates: Coordinates
-    var state: String
     var park: String
-    var category: Category
+    var state: String
+    var description: String
+    var isFavorite: Bool
 
+    private var imageName: String
+    var image: Image {
+        Image(imageName)
+    }
+
+    private var coordinates: Coordinates
     var locationCoordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(
-            latitude: coordinates.latitude,
-            longitude: coordinates.longitude)
+            latitude: coordinates.latitude, longitude: coordinates.longitude)
     }
-
-    enum Category: String, CaseIterable, Codable, Hashable {
-        case featured = "Featured"
-        case lakes = "Lakes"
-        case rivers = "Rivers"
+    struct Coordinates: Hashable, Codable {
+        var latitude: Double
+        var longitude: Double
     }
-}
-
-extension Landmark {
-    var image: Image {
-        ImageStore.shared.image(name: imageName)
-    }
-}
-
-struct Coordinates: Hashable, Codable {
-    var latitude: Double
-    var longitude: Double
 }
