@@ -12,14 +12,25 @@ struct CategoryRow: View {
     var items: [Landmark]
     
     var body: some View {
-        Text(categoryName)
-            .font(.headline)
-        
-        HStack(alignment: .top, spacing: 0, content: {
-            ForEach(items) { Landmark in
-                Text(Landmark.name)
+        VStack(alignment: .leading) {
+            Text(categoryName)
+                .font(.headline)
+                .padding(.leading, 15)
+                .padding(.top, 5)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 0) {
+                    ForEach(items) { Landmark in
+                        NavigationLink(destination: LandmarkDetail(landmark: Landmark)) {
+                            CategoryItem(landmark: Landmark)
+                        }
+                    }
+                }
             }
-        })
+            .frame(height: 185)
+        }
+        
+        
     }
 }
 
@@ -29,7 +40,7 @@ struct CategoryRow_Previews: PreviewProvider {
     static var previews: some View {
         CategoryRow(
             categoryName: landmarks[0].category.rawValue,
-            items: Array(landmarks.prefix(3))
+            items: Array(landmarks.prefix(4))
         )
     }
 }
